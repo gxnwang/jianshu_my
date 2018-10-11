@@ -4,7 +4,7 @@
 <div class="col-sm-8 blog-main">
     <div class="blog-post">
         <div style="display:inline-flex">
-            <h2 class="blog-post-title">{{$title}}</h2>
+            <h2 class="blog-post-title">{{$post -> title}}</h2>
             <a style="margin: auto"  href="/posts/62/edit">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
             </a>
