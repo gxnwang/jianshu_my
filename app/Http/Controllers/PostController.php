@@ -22,6 +22,9 @@ class PostController extends Controller
     // 创建逻辑
     public function store(){
 
+        $post = Post::create(request(['title','content']));
+        dd($post);
+        //dd(request()->all());
     }
     // 编辑页面
     public function edit(){
