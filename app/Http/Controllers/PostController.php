@@ -13,7 +13,6 @@ class PostController extends Controller
     }
     // 详情页
     public function show(Post $post){
-        print_r($post);
         return view('post/show',compact('post'));
     }
     // 创建页面
