@@ -10,8 +10,18 @@
         </div>
         <div class="form-group">
             <label>内容</label>
-            <textarea id="content"  style="height:400px;max-height:500px;" name="content" class="form-control" placeholder="这里是内容"></textarea>
+            <div id="editor">
+                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+            </div>
+            <textarea id="content" name="content" style="display:none;"></textarea>
         </div>
+        @if(count($errors)>0)
+        <div class="alert alert-danger" role="alert">
+            @foreach($errors-> all() as $error)
+            <li>{{$error}}</li>
+            @endforeach
+        </div>
+        @endif
         <button type="submit" class="btn btn-default">提交</button>
     </form>
     <br>

@@ -1,10 +1,15 @@
-var editor = new wangEditor('content');
 
-editor.config.uploadImgUrl = '/posts/image/upload';
+var E = window.wangEditor
+var editor = new E('#editor')
+// 或者 var editor = new E( document.getElementById('editor') )
 
-// 设置 headers（举例）
-editor.config.uploadHeaders = {
-    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-};
 
-editor.create();
+
+var $textarea = $('#content')
+editor.customConfig.onchange = function (html) {
+  // 监控变化，同步更新到 textarea
+  $textarea.val(html)
+}
+editor.create()
+// 初始化 textarea 的值
+$textarea.val(editor.txt.html())

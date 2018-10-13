@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Validate\CreatePost;
+use App\Validate\IDMustByPositive;
 
 class PostController extends Controller
 {
@@ -21,12 +23,14 @@ class PostController extends Controller
     }
     // 创建逻辑
     public function store(){
-
-        $this -> validate(request(),[
+        /*$this -> validate(request(),[
             'title' => 'required|string|max:100|min:5',
             'content' => 'required|string|min:10'
-        ]);
+        ]);*/
+        //$this -> IdMustBePositive();
 
+        //(new CreatePost()) ->goCheck();
+        dd(request()->all());
         $post = Post::create(request(['title','content']));
         return redirect("/posts");
         //dd(request()->all());
