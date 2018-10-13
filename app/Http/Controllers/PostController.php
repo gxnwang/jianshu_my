@@ -29,8 +29,8 @@ class PostController extends Controller
         ]);*/
         //$this -> IdMustBePositive();
 
-        //(new CreatePost()) ->goCheck();
-        dd(request()->all());
+        (new CreatePost()) ->goCheck();
+        //dd(request()->all());
         $post = Post::create(request(['title','content']));
         return redirect("/posts");
         //dd(request()->all());
