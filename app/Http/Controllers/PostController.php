@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Validate\CreatePost;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -38,5 +39,18 @@ class PostController extends Controller
     // 删除逻辑
     public function delete(){
 
+    }
+    // 上传图片
+    public function imageUpload(Request $request){
+        $path = $request ->file('wangEditorFile') ->storePublicly(time());
+
+        $result = [
+            'errno' =>0,
+            'data' =>[
+                asset('storage/'.$path)
+            ]
+        ];
+        return json_encode($result);
+//        dd(request()->all());
     }
 }

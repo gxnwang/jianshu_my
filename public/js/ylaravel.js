@@ -10,8 +10,13 @@ editor.customConfig.onchange = function (html) {
   // 监控变化，同步更新到 textarea
   $textarea.val(html)
 }
-
+editor.customConfig.debug = true
 editor.customConfig.uploadImgServer = '/posts/image/upload'
+// console.log($('meta[name="csrf-token"]').attr('content'))
+editor.customConfig.uploadImgHeaders = {
+  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+editor.customConfig.uploadFileName = 'wangEditorFile'
 
 editor.create()
 // 初始化 textarea 的值
