@@ -18,7 +18,8 @@
             <a href="#">Kassandra Ankunding2</a>
         </p>
 
-        <p><p>{{$post->content}}</p>
+
+        <p>{!! $post->content !!}</p>
         <div>
             <a href="/posts/{{$post->id}}/zan" type="button" class="btn btn-primary btn-lg">赞</a>
 
