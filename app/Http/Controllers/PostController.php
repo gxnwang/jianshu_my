@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Validate\CreatePost;
-use App\Validate\IDMustByPositive;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -23,17 +23,10 @@ class PostController extends Controller
     }
     // 创建逻辑
     public function store(){
-        /*$this -> validate(request(),[
-            'title' => 'required|string|max:100|min:5',
-            'content' => 'required|string|min:10'
-        ]);*/
-        //$this -> IdMustBePositive();
-
         (new CreatePost()) ->goCheck();
-        //dd(request()->all());
+        $data = request(['title','content']);
         $post = Post::create(request(['title','content']));
         return redirect("/posts");
-        //dd(request()->all());
     }
     // 编辑页面
     public function edit(){
@@ -46,5 +39,18 @@ class PostController extends Controller
     // 删除逻辑
     public function delete(){
 
+    }
+    // 上传图片
+    public function imageUpload(Request $request){
+        $path = $request ->file('wangEditorFile') ->storePublicly(time());
+
+        $result = [
+            'errno' =>0,
+            'data' =>[
+                asset('storage/'.$path)
+            ]
+        ];
+        return json_encode($result);
+//        dd(request()->all());
     }
 }
