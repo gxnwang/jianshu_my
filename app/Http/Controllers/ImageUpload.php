@@ -27,26 +27,36 @@ class ImageUpload extends Controller {
     /**
      * 上传逻辑
      * @param $request
-     * @return string
+     * @return array
      */
     public function imageUpload($request){
         $fileCharacter = $request ->file($this -> file) ;
+
+        $pathInfo = [];
         //$re = $path  ->store(time());
-        if($fileCharacter -> isValid()){
+        $len = count($fileCharacter);
+        //dd($len);
+        for ($i=0;$i<$len;$i++){
+            if($fileCharacter[$i] -> isValid()){
 
-            // 获取文件的扩展名
-            $ext = $fileCharacter -> getClientOriginalExtension();
-            // 获取文件的绝真实地址（临时文件）
-            $path = $fileCharacter -> getRealPath();
+                // 获取文件的扩展名
+                $ext = $fileCharacter[$i] -> getClientOriginalExtension();
+                // 获取文件的绝真实地址（临时文件）
+                $path = $fileCharacter[$i] -> getRealPath();
 
-            // 自己设定文件名
-            $filename = $this -> path .time().'.'.$ext;
-            // 存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置
-            $re = Storage::disk($this -> disk) ->put($filename,file_get_contents($path));
-            if($re){
-                return asset($this -> truePath .$filename);
+                // 自己设定文件名
+                // md5(uniqid(md5(microtime(true)),true)) 生成唯一字符串，防止同一时间上传多个图片造成错误
+                $filename = $this -> path .md5(uniqid(md5(microtime(true)),true)).'.'.$ext;
+                // 存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置
+                $update = Storage::disk($this -> disk) ->put($filename,file_get_contents($path));
+                if($update){
+                    $pathInfo[] = asset($this -> truePath .$filename);
+                }
             }
         }
+
+        return $pathInfo;
+
     }
 
     /**
@@ -55,13 +65,13 @@ class ImageUpload extends Controller {
      * @return string
      */
     public function wangEditorUpload(Request $request){
-
+        //dd($request);
         $this -> file = 'wangEditorFile';
         $path = $this -> imageUpload($request);
 
         $result = [
             'errno' =>0,
-            'data' =>[$path]
+            'data' =>$path
         ];
         return json_encode($result);
     }

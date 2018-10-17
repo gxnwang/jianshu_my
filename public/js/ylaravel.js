@@ -12,12 +12,12 @@ editor.customConfig.onchange = function (html) {
 }
 
 editor.customConfig.debug = true
-editor.customConfig.uploadImgServer = '/posts/image/upload'
+editor.customConfig.uploadImgServer = '/image/upload'
 // console.log($('meta[name="csrf-token"]').attr('content'))
 editor.customConfig.uploadImgHeaders = {
   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 }
-editor.customConfig.uploadFileName = 'wangEditorFile'
+editor.customConfig.uploadFileName = 'wangEditorFile[]'
 
 
 editor.create()
