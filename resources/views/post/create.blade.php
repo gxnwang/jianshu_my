@@ -15,9 +15,6 @@
             </div>
 
             <textarea id="content" name="content" style="display:none;"></textarea>
-
-
-
         </div>
         @if(count($errors)>0)
         <div class="alert alert-danger" role="alert">
