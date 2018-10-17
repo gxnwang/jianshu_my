@@ -22,6 +22,6 @@ class BaseValidate {
 
     public function goCheck(){
         $errors = $this -> validate(request(), $this->rules,$this -> message);
-        dd($errors);
+        return $errors;
     }
 }
