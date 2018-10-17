@@ -30,4 +30,5 @@ Route::put('/posts/{post}','\App\Http\Controllers\PostController@update');
 Route::get('/posts/delete','\App\Http\Controllers\PostController@delete');
 
 // 图片上传
-Route::post('/posts/image/upload','\App\Http\Controllers\PostController@imageUpload');
+//Route::post('/posts/image/upload','\App\Http\Controllers\PostController@imageUpload');
+Route::post('/posts/image/upload','\App\Http\Controllers\ImageUpload@wangEditorUpload');

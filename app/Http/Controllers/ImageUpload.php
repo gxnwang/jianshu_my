@@ -9,9 +9,28 @@
 namespace App\Http\Controllers;
 
 
+
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 class ImageUpload extends Controller {
-    public function imageUpload(Request $request,$file = 'img'){
-        $fileCharacter = $request ->file($file) ;
+    protected $file = 'img';
+    protected $path = '';
+    protected $truePath = 'storage/';
+    protected $disk = 'public';
+
+    public function __construct() {
+        $this -> path = date('Y').'/'.date('m').'/'.date('d').'/';
+    }
+
+    /**
+     * 上传逻辑
+     * @param $request
+     * @return string
+     */
+    public function imageUpload($request){
+        $fileCharacter = $request ->file($this -> file) ;
         //$re = $path  ->store(time());
         if($fileCharacter -> isValid()){
 
@@ -20,31 +39,30 @@ class ImageUpload extends Controller {
             // 获取文件的绝真实地址（临时文件）
             $path = $fileCharacter -> getRealPath();
 
-            //$filename = date('Y-m-d-H-i-s').'.'.$ext;
             // 自己设定文件名
-            $filename = date('Y').'/'.date('m').'/'.date('d').'/'.time().'.'.$ext;
+            $filename = $this -> path .time().'.'.$ext;
             // 存储文件。disk里面的public。总的来说，就是调用disk模块里的public配置
-            $re = Storage::disk('public') ->put($filename,file_get_contents($path));
+            $re = Storage::disk($this -> disk) ->put($filename,file_get_contents($path));
+            if($re){
+                return asset($this -> truePath .$filename);
+            }
         }
-        $allpath = asset('storage/'.$filename);
-        dd($ext,$path,$filename,$allpath,$re);
-
-
-
-
     }
 
-    public function wangEditorUpload(){
-        $path = $this -> imageUpload('wangEditorFile');
-//        dd($path);
-//
-//        $result = [
-//            'errno' =>0,
-//            'data' =>[
-//                asset('storage/'.$re)
-//            ]
-//        ];
-//        return json_encode($result);
-//        dd(request()->all());
+    /**
+     * 通过wangEditor提交的图片上传
+     * @param Request $request
+     * @return string
+     */
+    public function wangEditorUpload(Request $request){
+
+        $this -> file = 'wangEditorFile';
+        $path = $this -> imageUpload($request);
+
+        $result = [
+            'errno' =>0,
+            'data' =>[$path]
+        ];
+        return json_encode($result);
     }
 }
