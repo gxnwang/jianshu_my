@@ -35,8 +35,14 @@ class PostController extends Controller
         return view('post/edit',compact('post'));
     }
     // 编辑逻辑
-    public function update(){
+    public function update(Post $post){
+        (new CreatePost()) ->goCheck();
 
+        $post -> title = request('title');
+        $post -> content = request('content');
+        $post -> save();
+
+        return redirect('/posts/'.$post -> id);
     }
     // 删除逻辑
     public function delete(){

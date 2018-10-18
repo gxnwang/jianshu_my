@@ -2,9 +2,10 @@
 
 @section("content")
     <div class="col-sm-8 blog-main">
-        <form action="/posts/62" method="POST">
-            <input type="hidden" name="_method" value="PUT">
-            <input type="hidden" name="_token" value="MESUY3topeHgvFqsy9EcM916UWQq6khiGHM91wHy">
+        <form action="/posts/{{$post ->id}}" method="POST">
+            {{method_field('PUT')}}
+            {{csrf_field()}}
+
             <div class="form-group">
                 <label>标题</label>
                 <input name="title" type="text" class="form-control" placeholder="这里是标题" value="{{$post -> title}}">
@@ -17,13 +18,7 @@
 
                 <textarea id="content" name="content" style="display:none;"></textarea>
             </div>
-            @if(count($errors)>0)
-                <div class="alert alert-danger" role="alert">
-                    @foreach($errors-> all() as $error)
-                        <li>{{$error}}</li>
-                    @endforeach
-                </div>
-            @endif
+            @include('layout.error')
             <button type="submit" class="btn btn-default">提交</button>
         </form>
         <br>
